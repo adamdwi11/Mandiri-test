@@ -1,31 +1,9 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import TableCoin from './TableCoin';
+import { useOutletContext } from "react-router-dom";
 
 const CoinList = () => {
-    const [data, setData] = useState();
-    const [errMessage, setErrMessage] = useState({ 'status': false });
-
-    function fetchDataRest() {
-        return new Promise(() => {
-            setTimeout(() => {
-                const request = async () => {
-                    await axios(
-                        'https://api.coinpaprika.com/v1/coins'
-                    ).then((res) => {
-                        setData(res);
-                    }).catch((err) => {
-                        setErrMessage({ ...errMessage, 'status': true, 'fetchData': err.message })
-                    })
-                };
-                return request()
-            }, 500);
-        });
-    };
-
-    useEffect(() => {
-        fetchDataRest()
-    }, []);
+const [data] = useOutletContext();
 
     return (
         <>
@@ -36,15 +14,14 @@ const CoinList = () => {
                     </div>
                     <div className="col-12 col-md-12 mt-4">
                         {
-                            !data?.data ? !errMessage.status
+                            !data?.data ? <p>tess</p>
                                 ? <p>loading...</p>
                                 : <div className="alert alert-danger" role="alert">
                                     <i className="bi bi-exclamation-triangle-fill"> </i>
-                                    {errMessage.fetchData}
+                                    {data.errMessage.fetchData}
                                 </div>
                                 : <TableCoin data={data?.data} rowsPerPage={10}></TableCoin>
                         }
-
                     </div>
                 </div>
             </div>

@@ -4,6 +4,30 @@ import { Link, Outlet } from 'react-router-dom'
 import FooterContent from '../footer';
 
 const Home = () => {
+    const [data, setData] = useState();
+    const [errMessage, setErrMessage] = useState({ 'status': false });
+
+    function fetchDataRest() {
+        return new Promise(() => {
+            setTimeout(() => {
+                const request = async () => {
+                    await axios(
+                        'https://api.coinpaprika.com/v1/coins'
+                    ).then((res) => {
+                        setData(res);
+                    }).catch((err) => {
+                        setErrMessage({ ...errMessage, 'status': true, 'fetchData': err.message })
+                    })
+                };
+                return request()
+            }, 500);
+        });
+    };
+
+    useEffect(() => {
+        fetchDataRest()
+    }, []);
+
     return (
         <div>
             <div className='row mt-3'>
@@ -23,7 +47,7 @@ const Home = () => {
                 </nav>
             </div>
             <div style={{ background: "#F3F7FB", paddingTop: 20 }} >
-                <Outlet />
+                <Outlet context={[data, errMessage]} />
                 <FooterContent />
             </div>
         </div>
