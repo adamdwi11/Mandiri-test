@@ -1,0 +1,24 @@
+.p {
+    background-color: white;
+}
+.header {
+    padding: 60px;
+    text-align: center;
+    color: #1d4279;
+    font-size: 30px;
+}
+
+.header-blue {
+    background-color: #3783C6;;
+}
+
+.text-detail {
+    font-weight: 300;
+    font-family: 'Open Sans';
+    color: #444F5C;
+}
+
+thead th {
+    background-color: #3783C6 !important;
+    color: white;
+}
